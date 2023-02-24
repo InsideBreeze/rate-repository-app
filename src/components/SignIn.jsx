@@ -42,6 +42,7 @@ const SignIn = () => {
 const SignInForm = ({ onSubmit }) => {
   return (
     <View style={{ backgroundColor: "white", padding: 20 }}>
+      <Text>lala</Text>
       <FormikTextInput name="username" placeholder="Username" />
       <FormikTextInput
         name="password"
