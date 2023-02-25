@@ -4,6 +4,8 @@ import theme from "../theme";
 import FormikTextInput from "./FormikTextInput";
 import Text from "./Text";
 import * as yup from "yup";
+import useSignIn from "../hooks/useSignIn";
+import { useNavigate } from "react-router-native";
 
 const styles = StyleSheet.create({
   button: {
@@ -25,8 +27,19 @@ const SignIn = () => {
     password: "",
   };
 
-  const onSubmit = (values) => {
-    console.log(values.username, values.password);
+  const navigate = useNavigate();
+
+  const [signIn] = useSignIn();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    try {
+      await signIn({ username, password });
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <Formik
@@ -42,7 +55,6 @@ const SignIn = () => {
 const SignInForm = ({ onSubmit }) => {
   return (
     <View style={{ backgroundColor: "white", padding: 20 }}>
-      <Text>lala</Text>
       <FormikTextInput name="username" placeholder="Username" />
       <FormikTextInput
         name="password"

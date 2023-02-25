@@ -2,6 +2,8 @@ import { View, StyleSheet, ScrollView } from "react-native";
 import Constants from "expo-constants";
 import theme from "../theme";
 import AppBarTab from "./AppBarTab";
+import { useUserContext } from "../contexts/UserContext";
+import LogoutBar from "./LogoutBar";
 
 const styles = StyleSheet.create({
   container: {
@@ -13,18 +15,21 @@ const styles = StyleSheet.create({
     // ...
   },
   text: {
-    color: "white",
+    color: theme.colors.textSecondary,
     fontSize: theme.fontSizes.subheading,
   },
   // ...
 });
 
 const AppBar = () => {
+  const user = useUserContext();
+  console.log("user", user);
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab tabName="Respositories" path="/" />
-        <AppBarTab tabName="Sign In" path="/signIn" />
+        {!user && <AppBarTab tabName="Sign In" path="/signIn" />}
+        {user && <LogoutBar />}
       </ScrollView>
       {/*  <Pressable style={{ marginRight: 10 }}>
         <Link to="/">

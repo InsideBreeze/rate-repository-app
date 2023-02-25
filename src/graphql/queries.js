@@ -26,3 +26,20 @@ export const GET_REPOSITORIES = gql`
   }
   ${REPOSITORY_DETAIL}
 `;
+
+export const LOGIN = gql`
+  mutation LOGIN($input: AuthenticateInput) {
+    authenticate(credentials: $input) {
+      accessToken
+    }
+  }
+`;
+
+export const GET_ME = gql`
+  query {
+    me {
+      username
+      id
+    }
+  }
+`;
