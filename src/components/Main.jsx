@@ -9,6 +9,7 @@ import UserContext from "../contexts/UserContext";
 import RepositoryPage from "./RepositoryPage";
 import CreateView from "./CreateView";
 import SignUp from "./SignUp";
+import UserReviewList from "./UserReviewList";
 
 const styles = StyleSheet.create({
   container: {
@@ -31,6 +32,7 @@ const Main = () => {
           <Route path="/repositories/:id" element={<RepositoryPage />} />
           <Route path="/create_view" element={<CreateView />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/my_reviews" element={<UserReviewList />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </UserContext.Provider>

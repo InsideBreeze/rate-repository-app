@@ -6,7 +6,6 @@ import useRepositories from "../hooks/useRepositories";
 import RepositoryItem from "./RepositoryItem";
 import { Searchbar } from "react-native-paper";
 import { useDebounce } from "use-debounce";
-import Text from "./Text";
 
 const styles = StyleSheet.create({
   separator: {
@@ -82,10 +81,8 @@ const RepositoryList = () => {
     naviagate(`/repositories/${id}`);
   };
 
-  console.log("why order is not changed", order);
   const { repositories } = useRepositories(order, value);
 
-  console.log("repos from hooks", JSON.stringify(repositories));
   if (repositories) {
     return (
       <RepositoryListContainer

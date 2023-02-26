@@ -14,6 +14,21 @@ const REPOSITORY_DETAIL = gql`
     url
   }
 `;
+
+const REVIEW_DETAIL = gql`
+  fragment ReviewDetail on Review {
+    id
+    text
+    rating
+    createdAt
+    repositoryId
+    user {
+      id
+      username
+    }
+  }
+`;
+
 /* query Query($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection) {
   repositories(orderBy: $orderBy, orderDirection: $orderDirection) {
     
@@ -49,12 +64,20 @@ export const LOGIN = gql`
 `;
 
 export const GET_ME = gql`
-  query {
+  query getCurrentUser($includeReviews: Boolean = false) {
     me {
       username
       id
+      reviews @include(if: $includeReviews) {
+        edges {
+          node {
+            ...ReviewDetail
+          }
+        }
+      }
     }
   }
+  ${REVIEW_DETAIL}
 `;
 
 export const GET_REPOSITORY = gql`
@@ -64,20 +87,14 @@ export const GET_REPOSITORY = gql`
       reviews {
         edges {
           node {
-            id
-            text
-            rating
-            createdAt
-            user {
-              id
-              username
-            }
+            ...ReviewDetail
           }
         }
       }
     }
   }
   ${REPOSITORY_DETAIL}
+  ${REVIEW_DETAIL}
 `;
 
 export const CREATE_REVIEW = gql`
@@ -95,5 +112,11 @@ export const CREATE_USER = gql`
       id
       username
     }
+  }
+`;
+
+export const DELETE_REVIEW = gql`
+  mutation Mutation($deleteReviewId: ID!) {
+    deleteReview(id: $deleteReviewId)
   }
 `;
