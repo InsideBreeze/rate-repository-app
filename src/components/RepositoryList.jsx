@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { FlatList, View, StyleSheet, Pressable } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigate } from "react-router-native";
@@ -16,62 +16,88 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export const RepositoryListContainer = ({
+const RepositoryListHeader = ({ search, setSearch, order, setOrder }) => {
+  return (
+    <>
+      <View style={{ margin: 15 }}>
+        <Searchbar
+          placeholder="search"
+          value={search}
+          onChangeText={setSearch}
+        />
+      </View>
+
+      <SortingBar order={order} setOrder={setOrder} />
+    </>
+  );
+};
+
+export class RepositoryListContainer extends React.Component /* ({
   repositories,
   order,
   setOrder,
   search,
   setSearch,
-}) => {
-  const repositoryNodes = repositories
-    ? repositories.edges.map((edge) => edge.node)
-    : [];
+}) =>  */ {
+  renderHeader = () => {
+    const props = this.props;
+    return (
+      <RepositoryListHeader
+        search={props.search}
+        order={props.order}
+        setSearch={props.setSearch}
+        setOrder={props.setOrder}
+      />
+    );
+  };
 
-  const naviagate = useNavigate();
-
-  return (
-    <FlatList
-      data={repositoryNodes}
-      ItemSeparatorComponent={ItemSeparator}
-      ListHeaderComponent={() => (
-        <>
-          <View style={{ margin: 15 }}>
-            <Searchbar
-              placeholder="search"
-              value={search}
-              onChangeText={setSearch}
-            />
-          </View>
-
-          <SortingBar order={order} setOrder={setOrder} />
-        </>
-      )}
-      renderItem={({ item }) => (
-        <Pressable onPress={() => naviagate(`/repositories/${item.id}`)}>
-          <RepositoryItem item={item} />
-        </Pressable>
-      )}
-      // ...
-    />
-  );
-};
+  render() {
+    const { repositories, redirect } = this.props;
+    const repositoryNodes = repositories
+      ? repositories.edges.map((edge) => edge.node)
+      : [];
+    return (
+      <FlatList
+        data={repositoryNodes}
+        ItemSeparatorComponent={ItemSeparator}
+        ListHeaderComponent={this.renderHeader}
+        renderItem={({ item }) => (
+          <Pressable onPress={() => redirect(item.id)}>
+            <RepositoryItem item={item} />
+          </Pressable>
+        )}
+        // ...
+      />
+    );
+  }
+}
 
 const RepositoryList = () => {
   const [order, setOrder] = useState("latest");
   const [search, setSearch] = useState("");
   const [value] = useDebounce(search, 1000);
+  const naviagate = useNavigate();
 
-  const { repositories } = useRepositories(order);
+  const redirect = (id) => {
+    naviagate(`/repositories/${id}`);
+  };
 
-  return (
-    <RepositoryListContainer
-      repositories={repositories}
-      order={order}
-      setOrder={setOrder}
-      search={search}
-      setSearch={setSearch}
-    />
-  );
+  console.log("why order is not changed", order);
+  const { repositories } = useRepositories(order, value);
+
+  console.log("repos from hooks", JSON.stringify(repositories));
+  if (repositories) {
+    return (
+      <RepositoryListContainer
+        repositories={repositories}
+        order={order}
+        setOrder={setOrder}
+        search={search}
+        setSearch={setSearch}
+        redirect={redirect}
+      />
+    );
+  }
 };
 
 const SortingBar = ({ order, setOrder }) => {
