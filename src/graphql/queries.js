@@ -14,10 +14,17 @@ const REPOSITORY_DETAIL = gql`
     url
   }
 `;
-
+/* query Query($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection) {
+  repositories(orderBy: $orderBy, orderDirection: $orderDirection) {
+    
+  }
+} */
 export const GET_REPOSITORIES = gql`
-  query {
-    repositories {
+  query Query(
+    $orderBy: AllRepositoriesOrderBy
+    $orderDirection: OrderDirection
+  ) {
+    repositories(orderBy: $orderBy, orderDirection: $orderDirection) {
       edges {
         node {
           ...RepositoryDetail
@@ -73,6 +80,15 @@ export const CREATE_REVIEW = gql`
     createReview(review: $review) {
       id
       repositoryId
+    }
+  }
+`;
+
+export const CREATE_USER = gql`
+  mutation Mutation($user: CreateUserInput) {
+    createUser(user: $user) {
+      id
+      username
     }
   }
 `;

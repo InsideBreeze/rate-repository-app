@@ -30,6 +30,7 @@ const AppBar = () => {
         {!user && <AppBarTab tabName="Sign In" path="/signIn" />}
         {user && <AppBarTab tabName="Create a review" path="/create_view" />}
         {user && <LogoutBar />}
+        {!user && <AppBarTab tabName="Sign up" path="/signUp" />}
       </ScrollView>
       {/*  <Pressable style={{ marginRight: 10 }}>
         <Link to="/">
