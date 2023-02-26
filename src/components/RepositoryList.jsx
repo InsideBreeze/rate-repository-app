@@ -4,6 +4,8 @@ import { Picker } from "@react-native-picker/picker";
 import { useNavigate } from "react-router-native";
 import useRepositories from "../hooks/useRepositories";
 import RepositoryItem from "./RepositoryItem";
+import { Searchbar } from "react-native-paper";
+import { useDebounce } from "use-debounce";
 import Text from "./Text";
 
 const styles = StyleSheet.create({
@@ -14,7 +16,13 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export const RepositoryListContainer = ({ repositories, order, setOrder }) => {
+export const RepositoryListContainer = ({
+  repositories,
+  order,
+  setOrder,
+  search,
+  setSearch,
+}) => {
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
     : [];
@@ -26,7 +34,17 @@ export const RepositoryListContainer = ({ repositories, order, setOrder }) => {
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
       ListHeaderComponent={() => (
-        <SortingBar order={order} setOrder={setOrder} />
+        <>
+          <View style={{ margin: 15 }}>
+            <Searchbar
+              placeholder="search"
+              value={search}
+              onChangeText={setSearch}
+            />
+          </View>
+
+          <SortingBar order={order} setOrder={setOrder} />
+        </>
       )}
       renderItem={({ item }) => (
         <Pressable onPress={() => naviagate(`/repositories/${item.id}`)}>
@@ -40,6 +58,8 @@ export const RepositoryListContainer = ({ repositories, order, setOrder }) => {
 
 const RepositoryList = () => {
   const [order, setOrder] = useState("latest");
+  const [search, setSearch] = useState("");
+  const [value] = useDebounce(search, 1000);
 
   const { repositories } = useRepositories(order);
 
@@ -48,6 +68,8 @@ const RepositoryList = () => {
       repositories={repositories}
       order={order}
       setOrder={setOrder}
+      search={search}
+      setSearch={setSearch}
     />
   );
 };
