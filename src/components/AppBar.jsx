@@ -23,12 +23,12 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
   const user = useUserContext();
-  console.log("user", user);
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab tabName="Respositories" path="/" />
         {!user && <AppBarTab tabName="Sign In" path="/signIn" />}
+        {user && <AppBarTab tabName="Create a review" path="/create_view" />}
         {user && <LogoutBar />}
       </ScrollView>
       {/*  <Pressable style={{ marginRight: 10 }}>

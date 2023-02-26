@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
   errorText: {
     marginTop: 5,
     color: "#d73a4a",
+    marginLeft: 8,
   },
 });
 

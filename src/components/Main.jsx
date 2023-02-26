@@ -6,6 +6,8 @@ import SignIn from "./SignIn";
 import { useQuery } from "@apollo/client";
 import { GET_ME } from "../graphql/queries";
 import UserContext from "../contexts/UserContext";
+import RepositoryPage from "./RepositoryPage";
+import CreateView from "./CreateView";
 
 const styles = StyleSheet.create({
   container: {
@@ -18,7 +20,6 @@ const styles = StyleSheet.create({
 
 const Main = () => {
   const { data } = useQuery(GET_ME);
-  console.log(data);
   return (
     <View style={styles.container}>
       <UserContext.Provider value={data?.me}>
@@ -26,6 +27,8 @@ const Main = () => {
         <Routes>
           <Route path="/" element={<RepositoryList />} exact />
           <Route path="/signIn" element={<SignIn />} />
+          <Route path="/repositories/:id" element={<RepositoryPage />} />
+          <Route path="/create_view" element={<CreateView />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </UserContext.Provider>

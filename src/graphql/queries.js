@@ -11,6 +11,7 @@ const REPOSITORY_DETAIL = gql`
     ratingAverage
     reviewCount
     ownerAvatarUrl
+    url
   }
 `;
 
@@ -40,6 +41,38 @@ export const GET_ME = gql`
     me {
       username
       id
+    }
+  }
+`;
+
+export const GET_REPOSITORY = gql`
+  query getRepository($id: ID!) {
+    repository(id: $id) {
+      ...RepositoryDetail
+      reviews {
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
+          }
+        }
+      }
+    }
+  }
+  ${REPOSITORY_DETAIL}
+`;
+
+export const CREATE_REVIEW = gql`
+  mutation Mutation($review: CreateReviewInput) {
+    createReview(review: $review) {
+      id
+      repositoryId
     }
   }
 `;

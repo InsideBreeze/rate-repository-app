@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image, Pressable } from "react-native";
+import { View, StyleSheet, Image, Pressable, Linking } from "react-native";
 import theme from "../theme";
 import Stats from "./Stats";
 import Text from "./Text";
@@ -49,9 +49,19 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 20,
   },
+  githubButton: {
+    paddingVertical: 20,
+    backgroundColor: theme.colors.primary,
+    flexDirection: "row",
+    justifyContent: "center",
+    margin: 10,
+  },
 });
 
-const RepositoryItem = ({ item }) => {
+const RepositoryItem = ({ item, isSinglePage }) => {
+  const openLink = () => {
+    Linking.openURL(item.url);
+  };
   return (
     <View style={styles.container} testID="repositoryItem">
       <View style={styles.description}>
@@ -67,7 +77,7 @@ const RepositoryItem = ({ item }) => {
             fontWeight="bold"
             fontSize="subheading"
           >
-            {item.fullName}
+            {item?.fullName}
           </Text>
           <Text color="textSecondary">{item.description}</Text>
           <Pressable style={styles.button}>
@@ -82,6 +92,17 @@ const RepositoryItem = ({ item }) => {
         <Stats text="Reviews" count={item.reviewCount} />
         <Stats text="Rating" count={item.ratingAverage} />
       </View>
+      {isSinglePage && (
+        <Pressable style={styles.githubButton} onPress={openLink}>
+          <Text
+            fontWeight="bold"
+            fontSize="subheading"
+            style={{ color: "white" }}
+          >
+            Open in Github
+          </Text>
+        </Pressable>
+      )}
     </View>
   );
 };
