@@ -120,7 +120,7 @@ export const ReviewItem = ({ review, isReviewPage }) => {
 };
 const RepositoryPage = () => {
   const id = useParams().id;
-  const { repository } = useRepository(id);
+  const { repository, fetchMore } = useRepository({ id, first: 3 });
 
   /* repository.reviews.edges are review array */
 
@@ -137,6 +137,8 @@ const RepositoryPage = () => {
           </>
         }
         ItemSeparatorComponent={ItemSeparator}
+        onEndReached={fetchMore}
+        onEndReachedThreshold={0.5}
       />
     );
   }

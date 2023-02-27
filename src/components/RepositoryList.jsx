@@ -51,7 +51,7 @@ export class RepositoryListContainer extends React.Component /* ({
   };
 
   render() {
-    const { repositories, redirect } = this.props;
+    const { repositories, redirect, onEndReach } = this.props;
     const repositoryNodes = repositories
       ? repositories.edges.map((edge) => edge.node)
       : [];
@@ -60,6 +60,8 @@ export class RepositoryListContainer extends React.Component /* ({
         data={repositoryNodes}
         ItemSeparatorComponent={ItemSeparator}
         ListHeaderComponent={this.renderHeader}
+        onEndReached={onEndReach}
+        onEndReachedThreshold={0.5}
         renderItem={({ item }) => (
           <Pressable onPress={() => redirect(item.id)}>
             <RepositoryItem item={item} />
@@ -81,11 +83,20 @@ const RepositoryList = () => {
     naviagate(`/repositories/${id}`);
   };
 
-  const { repositories } = useRepositories(order, value);
+  const { repositories, fetchMore } = useRepositories({
+    first: 8,
+    order,
+    searchKeyword: value,
+  });
+
+  const onEndReach = () => {
+    fetchMore();
+  };
 
   if (repositories) {
     return (
       <RepositoryListContainer
+        onEndReach={onEndReach}
         repositories={repositories}
         order={order}
         setOrder={setOrder}
