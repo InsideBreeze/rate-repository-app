@@ -39,18 +39,15 @@ const SignUp = () => {
     const { username, password } = values;
 
     try {
-      //sign up
       await signUp({
         username,
         password,
       });
-      // then login
       await signIn({
         username,
         password,
       });
 
-      // then naviagate
       navigate("/");
     } catch (error) {
       console.log(error);

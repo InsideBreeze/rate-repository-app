@@ -1,20 +1,7 @@
 import { View, StyleSheet, Image, Pressable, Linking } from "react-native";
-import theme from "../theme";
+import theme from "../../theme";
 import Stats from "./Stats";
-import Text from "./Text";
-
-/*      {
-    id: "rails.rails",
-    fullName: "rails/rails",
-    description: "Ruby on Rails",
-    language: "Ruby",
-    forksCount: 18349,
-    stargazersCount: 45377,
-    ratingAverage: 100,
-    reviewCount: 2,
-    ownerAvatarUrl: "https://avatars1.githubusercontent.com/u/4223?v=4",
-  },
- */
+import Text from "../Text";
 
 const styles = StyleSheet.create({
   container: {
@@ -94,11 +81,7 @@ const RepositoryItem = ({ item, isSinglePage }) => {
       </View>
       {isSinglePage && (
         <Pressable style={styles.githubButton} onPress={openLink}>
-          <Text
-            fontWeight="bold"
-            fontSize="subheading"
-            style={{ color: "white" }}
-          >
+          <Text fontWeight="bold" fontSize="subheading" color="white">
             Open in Github
           </Text>
         </Pressable>

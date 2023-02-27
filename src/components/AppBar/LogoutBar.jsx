@@ -1,8 +1,8 @@
 import { useApolloClient } from "@apollo/client";
 import { Pressable } from "react-native";
-import { useAuthStorage } from "../contexts/AuthStorageContext";
-import theme from "../theme";
-import Text from "./Text";
+import { useAuthStorage } from "../../contexts/AuthStorageContext";
+import theme from "../../theme";
+import Text from "../Text";
 
 const LogoutBar = () => {
   const client = useApolloClient();

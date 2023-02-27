@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FlatList, View, StyleSheet, Pressable } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigate } from "react-router-native";
-import useRepositories from "../hooks/useRepositories";
+import useRepositories from "../../hooks/useRepositories";
 import RepositoryItem from "./RepositoryItem";
 import { Searchbar } from "react-native-paper";
 import { useDebounce } from "use-debounce";
@@ -31,13 +31,7 @@ const RepositoryListHeader = ({ search, setSearch, order, setOrder }) => {
   );
 };
 
-export class RepositoryListContainer extends React.Component /* ({
-  repositories,
-  order,
-  setOrder,
-  search,
-  setSearch,
-}) =>  */ {
+export class RepositoryListContainer extends React.Component {
   renderHeader = () => {
     const props = this.props;
     return (
@@ -67,7 +61,6 @@ export class RepositoryListContainer extends React.Component /* ({
             <RepositoryItem item={item} />
           </Pressable>
         )}
-        // ...
       />
     );
   }

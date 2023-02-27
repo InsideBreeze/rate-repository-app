@@ -2,7 +2,7 @@ import { Alert, FlatList, Pressable, StyleSheet, View } from "react-native";
 import { useNavigate, useParams } from "react-router-native";
 import useRepository from "../hooks/useRepository";
 import theme from "../theme";
-import RepositoryItem from "./RepositoryItem";
+import RepositoryItem from "./RepositoryList/RepositoryItem";
 import Text from "./Text";
 import { format } from "date-fns";
 import useDeleteView from "../hooks/useDeleteView";

@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import AppBar from "./AppBar";
-import RepositoryList from "./RepositoryList";
+import RepositoryList from "./RepositoryList/RepositoryList";
 import { Route, Routes, Navigate } from "react-router-native";
 import SignIn from "./SignIn";
 import { useQuery } from "@apollo/client";
